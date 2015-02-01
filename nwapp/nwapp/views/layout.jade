@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic', type='text/css')
+    link(href='http://fonts.googleapis.com/css?family=Roboto:400,300,500', rel='stylesheet', type='text/css')
+  body(class="#{ page_title }")
+    <div class="wrapper ">
+    block content
+    </div>
+    script(src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
+    script(src="javascripts/main.js")

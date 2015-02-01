@@ -1,0 +1,223 @@
+* {
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	list-style-type: none;
+}
+
+/*
+50		#E0F7FA
+100		#B2EBF2
+200		#80DEEA
+300		#4DD0E1
+400		#26C6DA
+500		#00BCD4
+600		#00ACC1
+700		#0097A7
+800		#00838F
+900		#006064
+*/
+
+html {
+	background: #FFF8E1;
+	/*width: 100%;
+	height: 100%;*/
+}
+
+body {
+	font-size: 100%;
+	font-family: 'Roboto', Helvetica, Arial,sans-serif;
+	display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+.wrapper {
+	padding: 5%;
+	box-shadow: 0 3px 16px #FFCC80;
+}
+h1 {
+	padding-bottom: 2%;
+	border-bottom: .2em solid #B2EBF2;
+	/*margin-bottom: 30%;*/
+	font-size: 220%;
+	color: #006064;
+	font-family: 'Libre Baskerville', "Times New Roman", Times, serif;
+}
+ul.nav {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+ul.nav li {
+	display: block;
+}
+ul.nav li a {
+	font-size: 220%;
+	color: #00ACC1;
+	display: inline-block;
+	padding: 2% 0;
+	font-weight: 300;
+}
+ul.nav li a:hover {
+	color: #000;
+}
+.game_screen h1 {
+	display: none
+}
+/* 	
+	##############
+	### STATUS ###
+	##############
+*/
+.status {
+	display: block;
+	overflow: hidden;
+	border-bottom: 3px solid #B2EBF2;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+}
+.status .status__score {
+	float: left;
+	font-size: 150%;
+	line-height: 150%;
+}
+.status .status__time {
+	float: right;
+	font-size: 150%;
+	line-height: 150%;
+}
+/* 	
+	####################
+	### WORD COLUMNS ###
+	####################
+*/
+.wordColumns {
+	/*background: #fff;*/
+	height: 250px;
+	font-size: 80%;
+	display: block;
+	overflow: hidden;
+	padding-left: 1%;
+}
+
+.wordColumn__column {
+	width: 32%;
+	float: left;
+	margin-right: 1%;
+}
+.wordColumn__column li {
+	font-size: 150%;
+	padding: 5px 5px;
+}
+.wordColumn__column li.blurred {
+	letter-spacing: 4px;
+	font-size: 100%;
+}
+.tilesInitial,
+.tilesStaging {
+	/*background: #fff;*/
+	height: 50px;
+	font-size: 100%;
+	display: block;
+	overflow: hidden;
+	padding: 10px 0 10px 4%;
+	/*border-top: 1px solid #90CAF9;*/
+}
+.tilesStaging {
+	background: #FFE082;
+	padding: 20px 0 20px 4%;
+}
+
+.tilesInitial__tile,
+.tilesStaging__tile {
+	width: 13%;
+	height: 50px;
+	background: #fff;
+	float: left;
+	margin-right: 1%;
+	border: 2px solid #fff;
+	border-radius: 4px;
+	text-align: center;
+	font-size: 180%;
+	line-height: 50px;
+	text-transform: uppercase;
+	opacity: 0.5;
+	outline: none;
+}
+.tilesInitial__tile-loaded,
+.tilesStaging__tile-loaded {
+	cursor: pointer;
+	opacity: 1;
+}
+.tilesInitial__tile-loaded:hover,
+.tilesStaging__tile-loaded:hover {
+	border: 2px solid #DC3522;
+}
+.actions {
+	height: 50px;
+	font-size: 100%;
+	display: block;
+	overflow: hidden;
+	padding: 10px 0 10px 4%;
+	/*border-top: 1px solid #ccc;*/
+}
+.actions button {
+	font-size: 120%;
+	width: 30%;
+	padding: 9px 0;
+	text-align: center;
+	background: #E53935;
+	border: 2px solid #E53935;
+	color: #fff;
+	font-family: 'Roboto', Helvetica, Arial,sans-serif;
+	border-radius: 3px;
+	cursor: pointer;
+	margin-right: 2%;
+}
+.actions button:hover {
+	background: #C62828;
+	border: 2px solid #B71C1C;
+}
+
+
+@media screen and (orientation: landscape) {
+	body {
+		-webkit-box-orient: horizontal;
+		/*flex-direction: row;*/
+	}
+}
+
+/* ipad landscape */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 2) { 
+	.wrapper {
+		padding: 5% 20%;
+	}
+}
+
+/* ipad portrait */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 2) { 
+
+}
+
+/* ipad portrait */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 2) { 
+
+}
+@media only screen and (min-device-width : 1025px) and (-webkit-min-device-pixel-ratio: 1) { 
+	.wrapper {
+		padding: 0;
+		border-radius: 3px;
+		width: 450px;
+		margin: 20px auto;
+		background: #FFECB3;
+	}
+	.status {
+		border-bottom:none;
+		background: #fff;
+		padding: 15px;
+		border-radius: 3px;
+	}
+}
+

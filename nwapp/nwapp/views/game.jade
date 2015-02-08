@@ -1,10 +1,11 @@
 extends layout
 
 block content
+  var data = !{data}
   h1= "NeueWordle"
   div.status.js_status
     div.status__score.js_status__score
-      span.status__score_value.js_status__score_value 123455
+      span.status__score_value.js_status__score_value= testvar
     div.status__time.js_status__time 
       span 3:00
   div.wordColumns.js_wordColumns

@@ -29,7 +29,6 @@ $( document ).ready(function() {
    		$(this).html('').removeClass('tilesStaging__tile-loaded');
    	});
 
-
 });
 
 function resetToInitial() {

@@ -8,7 +8,10 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var game = require('./routes/game');
-
+var generator = require('./w_generator.js');
+var start_data = generator.exported_words();
+//console.log(generator.exported_words.finalselection);
+//console.log(typeof generated_words.exported_words);
 var app = express();
 
 // view engine setup

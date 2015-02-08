@@ -24,9 +24,6 @@ module.exports = {
     fs.readFile('merged-eowl.txt', function(err, data) {
         if(err) throw err;
         items = data.toString().split("\n");
-        // for(i in items) {
-        //     console.log(items[i]);
-        // }
     });
 
     
@@ -56,22 +53,31 @@ module.exports = {
           nextLetter(a, l, a[i], "" + i)
       }
       for(var key in results) {
-        scrambledWords.push(key);
+        if (key.length > 2) {
+          scrambledWords.push(key);
+        };
+        
       }
       for (var i = 0; i < scrambledWords.length; i++) {
         var keytest = scrambledWords[i]+'\r';
+        console.log(items.length);
+        //console.log('indexof is '+items.indexOf(keytest));
         if (items.indexOf(keytest) > -1) {
+          console.log(keytest+' is in items');
           finalSelection.push(scrambledWords[i]);
         }
       }
       callback(scrambledWords);
 
     };
+
     // function to trigger anagrams
     //========================
     getWordsNew('father', function(word){
       // returns scrabledWords
+      // console.log(scrambledWords);
     });
+    //console.log(scrambledWords);
     return scrambledWords;
 
   }

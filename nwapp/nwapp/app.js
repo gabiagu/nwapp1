@@ -10,7 +10,7 @@ var users = require('./routes/users');
 var game = require('./routes/game');
 var generator = require('./w_generator.js');
 var start_data = generator.exported_words();
-//console.log(generator.exported_words.finalselection);
+//console.log('appjs log '+start_data.length);
 //console.log(typeof generated_words.exported_words);
 var app = express();
 
@@ -30,7 +30,11 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/game', game);
 
-
+app.get('/getGameWords', function (req, res, next) {
+  var start_data = generator.exported_words();
+  console.log('indexjs log '+start_data.length);
+  res.send({data: start_data});
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

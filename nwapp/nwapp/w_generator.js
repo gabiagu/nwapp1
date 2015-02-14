@@ -49,6 +49,7 @@ module.exports = {
       };
       // sort the set of valid words
       validWordSelection.sort();
+      //console.log(validWordSelection);
       // send the final selection back as callback
       callback(validWordSelection);
     };
@@ -98,7 +99,7 @@ module.exports = {
         });
       };
     };
-
+    //console.log('word selection '+validWordSelection.length);
     return validWordSelection;
   }
 };

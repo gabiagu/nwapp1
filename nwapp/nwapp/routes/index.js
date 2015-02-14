@@ -12,4 +12,6 @@ router.get('/game', function(req, res, next) {
   res.render('game', { title: 'Game NeueWordle', page_title: 'game_screen', start_data: start_data });
 });
 
+
+
 module.exports = router;

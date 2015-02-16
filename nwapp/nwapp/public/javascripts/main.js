@@ -4,6 +4,7 @@ $( document ).ready(function() {
     $.ajax({
         url:'/getGameWords',
         type: 'get',
+        dataType: 'json',
         success:function(data) {
             console.log(data);
             return data; 

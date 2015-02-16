@@ -1,5 +1,5 @@
 module.exports = {
-  exported_words: function() {
+  exported_words: function(callback) {
   // magic
     // initial vars
     var fullDict = [],
@@ -49,7 +49,7 @@ module.exports = {
       };
       // sort the set of valid words
       validWordSelection.sort();
-      //console.log(validWordSelection);
+      console.log(validWordSelection.length);
       // send the final selection back as callback
       callback(validWordSelection);
     };
@@ -92,7 +92,8 @@ module.exports = {
       //===================================
       function loadFullDict(fullDict) {
         
-        var masterword = sevenLetterWordsList[Math.floor(Math.random()*sevenLetterWordsList.length)];
+        // var masterword = sevenLetterWordsList[Math.floor(Math.random()*sevenLetterWordsList.length)];
+        var masterword = 'writer';
         //console.log(masterword);
         getWords(masterword, function(word){
           // will return validWordSelection - array with the set of words

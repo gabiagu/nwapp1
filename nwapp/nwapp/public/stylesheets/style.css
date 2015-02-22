@@ -95,7 +95,7 @@ ul.nav li a:hover {
 */
 .wordColumns {
 	/*background: #fff;*/
-	height: 250px;
+	/*height: 250px;*/
 	font-size: 80%;
 	display: block;
 	overflow: hidden;
@@ -108,12 +108,12 @@ ul.nav li a:hover {
 	margin-right: 1%;
 }
 .wordColumn__column li {
-	font-size: 150%;
+	font-size: 130%;
+	line-height: 130%;
 	padding: 5px 5px;
 }
 .wordColumn__column li.blurred {
 	letter-spacing: 4px;
-	font-size: 100%;
 }
 .tilesInitial,
 .tilesStaging {

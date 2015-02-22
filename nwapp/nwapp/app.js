@@ -8,10 +8,12 @@ var express = require('express')
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var game = require('./routes/game');
-var generator = require('./w_generator.js');
-var start_data = generator.exported_words();
-var generator2 = require('./w_generator2.js');
-var start_data2 = generator2.exported_words();
+var getGameWordsModule = require('./getGameWords.js');
+//var start_data2 = getGameWordsModule.generateWordList();
+//var generator = require('./w_generator.js');
+//var start_data = generator.exported_words();
+//var generator2 = require('./w_generator2.js');
+//var start_data2 = generator2.exported_words(); calling this would trigger it twice
 //console.log('appjs log '+start_data.length);
 //console.log(typeof generated_words.exported_words);
 var app = express();
@@ -33,19 +35,12 @@ app.use('/users', users);
 app.use('/game', game);
 
 app.get('/getGameWords', function (req, res, next) {
-  var start_data2 = generator2.exported_words();
-  setTimeout(function() {
-    res.send({data: start_data2});
-   // console.log('indexjs log '+start_data.length);
-   // res.writeHead(200, {'content-type': 'text/json' });
-   // res.write( JSON.stringify({ data : start_data}) );
-   // res.end('\n');
-  }, 100);
+  var start_data2 = getGameWordsModule.generateWordList();
   
-  /*res.writeHead(200, {'content-type': 'text/json' });
-  res.write( JSON.stringify({ data : start_data}) );
-  res.end('\n');*/
-  //res.send({data: start_data});
+  setTimeout(function() {
+    //console.log('get words request - '+start_data2);
+    res.send({data: start_data2});
+  }, 100);
 })
 
 // catch 404 and forward to error handler

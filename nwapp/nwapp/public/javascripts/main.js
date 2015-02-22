@@ -72,7 +72,7 @@ function validateWord(word) {
         for (var i in $wordsAndPositions) {
             if ( i == wordToValidate ) {
                 var wordColumnTarget = $wordsAndPositions[i];
-                $('.'+wordColumnTarget).html(wordToValidate).toggleClass('blurred');
+                $('.'+wordColumnTarget).html(wordToValidate).removeClass('blurred');
                 resetToInitial();
             }
         }
@@ -80,6 +80,25 @@ function validateWord(word) {
     } else {
         console.log('nope');
     }
+}
+function startTimer() {
+    console.log('started timer');
+    var threeMinutes = 60 * 3,
+        display = $('.js_status__time span'),
+        mins, seconds;
+    setInterval(function() {
+        console.log('started timer?');
+        mins = parseInt(threeMinutes / 60)
+        seconds = parseInt(threeMinutes % 60);
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.innerHTML = mins + ":" + seconds;
+        threeMinutes--;
+
+        if (threeMinutes < 0) {
+            threeMinutes = 60 * 3;
+        }
+    }, 100);
 }
 
 function sortData(data){
@@ -222,6 +241,7 @@ console.log($wordsAndPositions);
         $('.js_tilesInitial .tilesInitial__tile:empty:first').html(sevenLetterWordArr[i]).addClass('tilesInitial__tile-loaded');
         //console.log(sevenLetterWordArr[i]);
     };
+    startTimer();
 };
 
 

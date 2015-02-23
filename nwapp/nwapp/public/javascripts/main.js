@@ -2,19 +2,11 @@ $( document ).ready(function() {
     // magic
     
     var listOfWords = [];
-    $wordsAndPositions = {};
+        $wordsAndPositions = {},
+        level = 0,
+        score = 0;
 
-    $.ajax({
-        url:'/getGameWords',
-        type: 'get',
-        dataType: 'json',
-        success:function(data) {
-            //console.log(data);
-            $wordsAndPositions = {};
-            sortData(data);
-            return data; 
-        }
-    });
+    startLevel();
 
     //=================
     // submit
@@ -60,52 +52,132 @@ $( document ).ready(function() {
 
 });
 
+function startLevel() {
+    $.ajax({
+        url:'/getGameWords',
+        type: 'get',
+        dataType: 'json',
+        success:function(data) {
+            //console.log(data);
+            $wordsAndPositions = {};
+            sortData(data);
+            return data; 
+        }
+    });
+};
+
+function updateScore(word) {
+    var word = word;
+    console.log(word);
+
+    if (level < 10) {
+        if (word.length == 3) {
+            score = score + 10;
+            $('.js_status__score_value').html(score);
+        } else if (word.length == 4) {
+            score = score + 20;
+            $('.js_status__score_value').html(score);
+        } else if (word.length == 5) {
+            score = score + 40;
+            $('.js_status__score_value').html(score);
+        } else if (word.length == 6) {
+            score = score + 60;
+            $('.js_status__score_value').html(score);
+        } else if (word.length == 7) {
+            score = score + 100;
+            $('.js_status__score_value').html(score);
+        }
+    } else if (level > 10) {
+        if (word.length == 3) {
+            score = score + 30;
+            $('.js_status__score_value').html(score);
+        } else if (word.length == 4) {
+            score = score + 60;
+            $('.js_status__score_value').html(score);
+        } else if (word.length == 5) {
+            score = score + 80;
+            $('.js_status__score_value').html(score);
+        } else if (word.length == 6) {
+            score = score + 120;
+            $('.js_status__score_value').html(score);
+        } else if (word.length == 7) {
+            score = score + 150;
+            $('.js_status__score_value').html(score);
+        }
+    } else if (level > 30) {
+        if (word.length == 3) {
+            score = score + 50;
+            $('.js_status__score_value').html(score);
+        } else if (word.length == 4) {
+            score = score + 80;
+            $('.js_status__score_value').html(score);
+        } else if (word.length == 5) {
+            score = score + 120;
+            $('.js_status__score_value').html(score);
+        } else if (word.length == 6) {
+            score = score + 200;
+            $('.js_status__score_value').html(score);
+        } else if (word.length == 7) {
+            score = score + 250;
+            $('.js_status__score_value').html(score);
+        }
+    }
+}
+
 function validateWord(word) {
+
     var wordToValidate = word.toString()+'\r'; 
-    console.log(wordToValidate);
-    console.log(listOfWords);
+
     if (listOfWords.indexOf(wordToValidate) > -1) {
-        /*for(var i in foo){
-          alert(i); // alerts key
-          alert(foo[i]); //alerts key's value
-        }*/
         for (var i in $wordsAndPositions) {
             if ( i == wordToValidate ) {
                 var wordColumnTarget = $wordsAndPositions[i];
                 $('.'+wordColumnTarget).html(wordToValidate).removeClass('blurred');
                 resetToInitial();
+                updateScore(wordToValidate);
             }
         }
-        //$wordsAndPositions
+
     } else {
-        console.log('nope');
+        //console.log('nope');
+        // show error
     }
 }
+
 function startTimer() {
-    console.log('started timer');
+    //console.log('started timer');
     var threeMinutes = 60 * 3,
         display = $('.js_status__time span'),
         mins, seconds;
-    setInterval(function() {
-        console.log('started timer?');
+    gameTimer = setInterval(function() {
+        //console.log('started timer?');
         mins = parseInt(threeMinutes / 60)
         seconds = parseInt(threeMinutes % 60);
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        display.innerHTML = mins + ":" + seconds;
+        display.html(mins + ":" + seconds);
         threeMinutes--;
-
-        if (threeMinutes < 0) {
-            threeMinutes = 60 * 3;
+        if (threeMinutes == 10) {
+            display.addClass('status__time-ending');
         }
-    }, 100);
+        if (threeMinutes == 0) {
+            endLevel();
+        }
+    }, 180);
+}
+
+function endLevel() {
+    clearInterval(gameTimer);
+    $('.js_status__time span').html('0:00');
+    //console.log('level ended!');
+    //alert('level ended');
 }
 
 function sortData(data){
     var temptempList = [];
     tempList = $.map(data, function(value, index) { return [value]; });
     tempList = tempList[0];
-    //console.log(tempList);
+
     list_3 = []; // create lists for every subset of string length
     list_4 = [];
     list_5 = [];
@@ -124,17 +196,16 @@ function sortData(data){
             if (list_7.length == 0) {
                 list_7.push(tempList[i]);
             }
-            
         }
     };
+
     // sort each alphabetically
     list_3.sort();
     list_4.sort();
     list_5.sort();
     list_6.sort();
     list_7.sort();
-    //console.log(list_7);
-    //console.log(list_7.length);
+    console.log(list_7);
     // merge them back into one list
     list = [];
     list = list.concat(list_3);
@@ -162,16 +233,13 @@ function fillInWords(list) {
         tempList3 = [],
         tempList4 = [];
 
-    for (i = 0; i < fillInList.length; i++) {
-        //fillInList[i] = fillInList[i].replace(/[A-Za-z]/g, '_');
-    };
     // console.log(fillInList);
     // CREATE COLUMNS AND ADD WORDS THERE
     if ( listLength > 33 ) {
         // if it's over 36, make it 4 columns instead of 3
         makeFourColumns = true;
         // add column containers
-        $('.js_wordColumns').append('<div class="wordColumn__column wordColumn-1"><ul></ul></div><div class="wordColumn__column wordColumn-2"><ul></ul></div><div class="wordColumn__column wordColumn-3"><ul></ul></div><div class="wordColumn__column wordColumn-4"><ul></ul></div>');
+        $('.js_wordColumns').append('<div class="wordColumn__column wordColumn-1"><ul></ul></div>');
         // break apart the list in to the columns
         tempList1 = fillInList.splice(0,10);
         tempList2 = fillInList.splice(0,10);
@@ -184,26 +252,41 @@ function fillInWords(list) {
             $('.wordColumn-1 ul').append('<li class="blurred c1p'+i+'">'+tempList1[i]+'</li>');
             //console.log($wordsAndPositions);
         };
-        for (i = 0; i < tempList2.length; i++) {
-            $wordsAndPositions[tempList2[i]] = 'c2p'+i;
-            tempList2[i] = tempList2[i].replace(/[A-Za-z]/g, '_');
-            $('.wordColumn-2 ul').append('<li class="blurred c2p'+i+'">'+tempList2[i]+'</li>');
-        };
-        for (i = 0; i < tempList3.length; i++) {
-            $wordsAndPositions[tempList3[i]] = 'c3p'+i;
-            tempList3[i] = tempList3[i].replace(/[A-Za-z]/g, '_');
-            $('.wordColumn-3 ul').append('<li class="blurred c3p'+i+'">'+tempList3[i]+'</li>');
-        };
-        for (i = 0; i < tempList4.length; i++) {
-            $wordsAndPositions[tempList4[i]] = 'c4p'+i;
-            tempList4[i] = tempList4[i].replace(/[A-Za-z]/g, '_');
-            $('.wordColumn-4 ul').append('<li class="blurred c4p'+i+'">'+tempList4[i]+'</li>');
-        };
+        if (tempList2.length > 0) {
+            $('.js_wordColumns').append('<div class="wordColumn__column wordColumn-2"><ul></ul></div>');
+            for (i = 0; i < tempList2.length; i++) {
+                $wordsAndPositions[tempList2[i]] = 'c2p'+i;
+                tempList2[i] = tempList2[i].replace(/[A-Za-z]/g, '_');
+                $('.wordColumn-2 ul').append('<li class="blurred c2p'+i+'">'+tempList2[i]+'</li>');
+            };
+            
+            if (tempList3.length > 0) {
+                $('.js_wordColumns').append('<div class="wordColumn__column wordColumn-3"><ul></ul></div>');
+                for (i = 0; i < tempList3.length; i++) {
+                    $wordsAndPositions[tempList3[i]] = 'c3p'+i;
+                    tempList3[i] = tempList3[i].replace(/[A-Za-z]/g, '_');
+                    $('.wordColumn-3 ul').append('<li class="blurred c3p'+i+'">'+tempList3[i]+'</li>');
+                };
+
+                if (tempList4.length > 0) {
+                    $('.js_wordColumns').append('<div class="wordColumn__column wordColumn-4"><ul></ul></div>');
+                    $('.js_wordColumns').addClass('wordColumns-narrow');
+                    for (i = 0; i < tempList4.length; i++) {
+                        $wordsAndPositions[tempList4[i]] = 'c4p'+i;
+                        tempList4[i] = tempList4[i].replace(/[A-Za-z]/g, '_');
+                        $('.wordColumn-4 ul').append('<li class="blurred c4p'+i+'">'+tempList4[i]+'</li>');
+                    };
+
+                }
+
+            }
+
+        }
 
     } else {
         makeThreeColumns = true;
-        // add column containers
-        $('.js_wordColumns').append('<div class="wordColumn__column wordColumn-1"><ul></ul></div><div class="wordColumn__column wordColumn-2"><ul></ul></div><div class="wordColumn__column wordColumn-3"><ul></ul></div>');
+        // add column containers - first column first, the others if needed
+        $('.js_wordColumns').append('<div class="wordColumn__column wordColumn-1"><ul></ul></div>');
         // break apart the list in to the columns
         tempList1 = fillInList.splice(0,11);
         tempList2 = fillInList.splice(0,11);
@@ -214,16 +297,25 @@ function fillInWords(list) {
             $('.wordColumn-1 ul').append('<li class="blurred c1p'+i+'">'+tempList1[i]+'</li>');
             //console.log($wordsAndPositions);
         };
-        for (i = 0; i < tempList2.length; i++) {
-            $wordsAndPositions[tempList2[i]] = 'c2p'+i;
-            tempList2[i] = tempList2[i].replace(/[A-Za-z]/g, '_');
-            $('.wordColumn-2 ul').append('<li class="blurred c2p'+i+'">'+tempList2[i]+'</li>');
-        };
-        for (i = 0; i < tempList3.length; i++) {
-            $wordsAndPositions[tempList3[i]] = 'c3p'+i;
-            tempList3[i] = tempList3[i].replace(/[A-Za-z]/g, '_');
-            $('.wordColumn-3 ul').append('<li class="blurred c3p'+i+'">'+tempList3[i]+'</li>');
-        };
+        if (tempList2.length > 0) {
+            $('.js_wordColumns').append('<div class="wordColumn__column wordColumn-2"><ul></ul></div>');
+            for (i = 0; i < tempList2.length; i++) {
+                $wordsAndPositions[tempList2[i]] = 'c2p'+i;
+                tempList2[i] = tempList2[i].replace(/[A-Za-z]/g, '_');
+                $('.wordColumn-2 ul').append('<li class="blurred c2p'+i+'">'+tempList2[i]+'</li>');
+            };
+            
+            if (tempList3.length > 0) {
+                $('.js_wordColumns').append('<div class="wordColumn__column wordColumn-3"><ul></ul></div>');
+                for (i = 0; i < tempList3.length; i++) {
+                    $wordsAndPositions[tempList3[i]] = 'c3p'+i;
+                    tempList3[i] = tempList3[i].replace(/[A-Za-z]/g, '_');
+                    $('.wordColumn-3 ul').append('<li class="blurred c3p'+i+'">'+tempList3[i]+'</li>');
+                };
+
+            }
+
+        }
     };
     
 console.log($wordsAndPositions);

@@ -88,6 +88,9 @@ ul.nav li a:hover {
 	font-size: 150%;
 	line-height: 150%;
 }
+.status__time-ending {
+	color: #f40;
+}
 /* 	
 	####################
 	### WORD COLUMNS ###
@@ -100,6 +103,10 @@ ul.nav li a:hover {
 	display: block;
 	overflow: hidden;
 	padding-left: 1%;
+}
+
+.wordColumns-narrow .wordColumn__column {
+	width: 24%;
 }
 
 .wordColumn__column {
@@ -216,7 +223,7 @@ ul.nav li a:hover {
 	.status {
 		border-bottom:none;
 		background: #fff;
-		padding: 15px;
+		padding:5px 15px;
 		border-radius: 3px;
 	}
 }

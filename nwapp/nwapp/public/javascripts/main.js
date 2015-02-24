@@ -61,6 +61,8 @@ function startLevel() {
             //console.log(data);
             $wordsAndPositions = {};
             sortData(data);
+            level = level+1;
+            $('.js_status__level_value').html(level);
             return data; 
         }
     });
@@ -169,6 +171,23 @@ function startTimer() {
 function endLevel() {
     clearInterval(gameTimer);
     $('.js_status__time span').html('0:00');
+
+    // reveal
+    $('li.blurred').each(function() {
+        var currentItem = $(this).attr('class').replace('blurred ','');
+        //console.log(currentItem);
+        for (var i in $wordsAndPositions) {
+           var wordKey = i;
+           var wordValue = $wordsAndPositions[i];
+           if ( wordValue == currentItem ) {
+                $(this).html(wordKey).removeClass('blurred').addClass('revealed');
+           };
+        }
+    });
+    // disable game level actions
+    $('.js_actions button').attr('disabled','disabled');
+    // toggle level actions
+
     //console.log('level ended!');
     //alert('level ended');
 }
@@ -318,7 +337,7 @@ function fillInWords(list) {
         }
     };
     
-console.log($wordsAndPositions);
+    console.log($wordsAndPositions);
 
     // get the 7 letter word
     var sevenLetterWord = templist[templist.length - 1];

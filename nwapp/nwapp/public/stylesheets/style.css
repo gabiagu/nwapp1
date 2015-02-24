@@ -91,6 +91,15 @@ ul.nav li a:hover {
 .status__time-ending {
 	color: #f40;
 }
+.status__level  {
+	font-size: 50%;
+	line-height: 50%;
+	color: #888;
+}
+.status__level_value {
+
+}
+
 /* 	
 	####################
 	### WORD COLUMNS ###
@@ -121,6 +130,9 @@ ul.nav li a:hover {
 }
 .wordColumn__column li.blurred {
 	letter-spacing: 4px;
+}
+.wordColumn__column li.revealed {
+	color: #f40;
 }
 .tilesInitial,
 .tilesStaging {
@@ -186,6 +198,12 @@ ul.nav li a:hover {
 .actions button:hover {
 	background: #C62828;
 	border: 2px solid #B71C1C;
+}
+.actions button:disabled,
+.actions button:disabled:hover {
+	opacity: .5;
+	background: #E53935;
+	border: 2px solid #E53935;
 }
 
 

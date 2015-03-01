@@ -36,6 +36,13 @@ $( document ).ready(function() {
         shuffleTiles();
     });
 
+    //=================
+    // next level
+    //=================
+    $('.js_actions__nextLevel').click(function(){
+        startLevel();
+    });
+
     // move tile from initial to staging
     $( document ).on( "click", ".js_tilesInitial .tilesInitial__tile-loaded", function() {
         var tileText = $(this).text();
@@ -53,6 +60,13 @@ $( document ).ready(function() {
 });
 
 function startLevel() {
+    resetToInitial();
+    $('.js_status__time span').removeClass('status__time-ending');
+    $('.js_wordColumns .wordColumn__column').remove();
+    $('.js_actions__submit').show();
+    $('.js_actions__reset').show();
+    $('.js_actions__shuffle').show();
+    $('.js_actions__nextLevel').hide();
     $.ajax({
         url:'/getGameWords',
         type: 'get',
@@ -62,7 +76,8 @@ function startLevel() {
             $wordsAndPositions = {};
             sortData(data);
             level = level+1;
-            $('.js_status__level_value').html(level);
+            console.log(level);
+            $('.status__level_value').html(level);
             return data; 
         }
     });
@@ -70,7 +85,7 @@ function startLevel() {
 
 function updateScore(word) {
     var word = word;
-    console.log(word);
+    //console.log(word);
 
     if (level < 10) {
         if (word.length == 3) {
@@ -129,20 +144,39 @@ function updateScore(word) {
 function validateWord(word) {
 
     var wordToValidate = word.toString()+'\r'; 
-
+    if (word.length < 3){
+        // error out
+        $('.tilesStaging__tile-loaded').addClass('tilesStaging__tile-error');
+        setTimeout(function() {
+            $('.tilesStaging__tile-loaded').removeClass('tilesStaging__tile-error');
+        }, 250);
+        return;
+    }
     if (listOfWords.indexOf(wordToValidate) > -1) {
         for (var i in $wordsAndPositions) {
             if ( i == wordToValidate ) {
                 var wordColumnTarget = $wordsAndPositions[i];
-                $('.'+wordColumnTarget).html(wordToValidate).removeClass('blurred');
-                resetToInitial();
-                updateScore(wordToValidate);
+                // check if the word is already revealed
+                if ( $('.'+wordColumnTarget+'.blurred').length ) {
+                    $('.'+wordColumnTarget).html(wordToValidate).removeClass('blurred');
+                    resetToInitial();
+                    updateScore(wordToValidate);
+                } else {
+                    // error out
+                    $('.tilesStaging__tile-loaded').addClass('tilesStaging__tile-error');
+                    setTimeout(function() {
+                        $('.tilesStaging__tile-loaded').removeClass('tilesStaging__tile-error');
+                    }, 250);
+                }
+                
             }
         }
-
     } else {
-        //console.log('nope');
-        // show error
+        // error out
+        $('.tilesStaging__tile-loaded').addClass('tilesStaging__tile-error');
+        setTimeout(function() {
+            $('.tilesStaging__tile-loaded').removeClass('tilesStaging__tile-error');
+        }, 250);
     }
 }
 
@@ -165,7 +199,7 @@ function startTimer() {
         if (threeMinutes == 0) {
             endLevel();
         }
-    }, 180);
+    }, 1800);
 }
 
 function endLevel() {
@@ -185,9 +219,13 @@ function endLevel() {
         }
     });
     // disable game level actions
-    $('.js_actions button').attr('disabled','disabled');
+    //$('.js_actions button').attr('disabled','disabled');
+    
     // toggle level actions
-
+    $('.js_actions__submit').hide();
+    $('.js_actions__reset').hide();
+    $('.js_actions__shuffle').hide();
+    $('.js_actions__nextLevel').show();
     //console.log('level ended!');
     //alert('level ended');
 }
@@ -254,8 +292,8 @@ function fillInWords(list) {
 
     // console.log(fillInList);
     // CREATE COLUMNS AND ADD WORDS THERE
-    if ( listLength > 33 ) {
-        // if it's over 36, make it 4 columns instead of 3
+    if ( listLength > 30 ) {
+        // if it's over 33, make it 4 columns instead of 3
         makeFourColumns = true;
         // add column containers
         $('.js_wordColumns').append('<div class="wordColumn__column wordColumn-1"><ul></ul></div>');
@@ -307,9 +345,9 @@ function fillInWords(list) {
         // add column containers - first column first, the others if needed
         $('.js_wordColumns').append('<div class="wordColumn__column wordColumn-1"><ul></ul></div>');
         // break apart the list in to the columns
-        tempList1 = fillInList.splice(0,11);
-        tempList2 = fillInList.splice(0,11);
-        tempList3 = fillInList.splice(0,11);
+        tempList1 = fillInList.splice(0,10);
+        tempList2 = fillInList.splice(0,10);
+        tempList3 = fillInList.splice(0,10);
         for (i = 0; i < tempList1.length; i++) {
             $wordsAndPositions[tempList1[i]] = 'c1p'+i;
             tempList1[i] = tempList1[i].replace(/[A-Za-z]/g, '_');
